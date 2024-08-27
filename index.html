@@ -300,7 +300,112 @@
     </div>
   </section>
 
+<!-- emi calculator -->
+  <div class="containerCard">
+    <h1 class="h1Text">EMI Calculator</h1>
+    <form id="emiForm">
+      <div class="form-group">
+        <label for="loanAmount">Loan Amount (₹):</label>
+        <input class="inputValue" type="number" id="loanAmount" required>
+      </div>
+      <div class="form-group">
+        <label for="interestRate">Annual Interest Rate (%):</label>
+        <input class="inputValue"  type="number" id="interestRate" required>
+      </div>
+      <div class="form-group">
+        <label for="loanTenure">Loan Tenure (years):</label>
+        <input class="inputValue" type="number" id="loanTenure" required>
+      </div>
+      <button class="btnemi" type="button" onclick="calculateEMI()">Calculate EMI</button>
+    </form>
 
+    <div id="result" class="result">
+      <h5>Your EMI: ₹ <span id="emiAmount">0</span></h3>
+      <h5>Total Amount Payable: ₹ <span id="totalAmount">0</span></h3>
+      <h5>Total Interest Payable: ₹ <span id="totalInterest">0</span></h3>
+    </div>
+  </div>
+
+  <style>
+    .containerCard {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .h1Text {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      color: #555;
+    }
+
+    .form-group .inputValue {
+      width: 100%;
+      padding: 8px;
+      font-size: 16px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .btnemi {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btnemi:hover {
+      background-color: #218838;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #333;
+    }
+
+    #emiAmount,
+    #totalAmount,
+    #totalInterest {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+      }
+
+      .h1Text {
+        font-size: 20px;
+      }
+
+      .btnemi {
+        font-size: 14px;
+      }
+    }
+  </style>
+
+  
   <!-- about section -->
 
   <section class="about_section layout_padding">
@@ -529,6 +634,39 @@
   </section>
   <!-- footer section -->
 
+<!-- emi calculator -->
+  <script>
+    function calculateEMI() {
+      let loanAmount = document.getElementById('loanAmount').value;
+      let interestRate = document.getElementById('interestRate').value;
+      let loanTenure = document.getElementById('loanTenure').value;
+
+      if (!loanAmount || !interestRate || !loanTenure) {
+        alert("Please fill all the fields.");
+        return;
+      }
+
+      let monthlyInterestRate = (interestRate / 12) / 100;
+      let numberOfMonths = loanTenure * 12;
+
+      let emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) /
+        (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
+
+      emi = emi.toFixed(2);
+
+      // Total payable amount
+      let totalAmount = (emi * numberOfMonths).toFixed(2);
+
+      // Total interest payable
+      let totalInterest = (totalAmount - loanAmount).toFixed(2);
+
+      document.getElementById('emiAmount').innerText = emi;
+      document.getElementById('totalAmount').innerText = totalAmount;
+      document.getElementById('totalInterest').innerText = totalInterest;
+    }
+  </script>
+
+  
   <!-- jQery -->
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <!-- popper js -->
